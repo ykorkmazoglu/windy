@@ -1,0 +1,5 @@
+foo
+bower_components/
+ignore/
+node_modules/
+server/config/configuration.js

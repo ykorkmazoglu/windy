@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-md-2 col-md-offset-10">
+        <a href="#/dashboard">Dashboard</a> | <a href="#/">Logout</a>
+    </div>
+</div>
+    <fieldset>
+    <legend>Options</legend>
+    <div class="row">
+        <div class="col-md-8">
+            <h3>
+                {{poll.question}}
+            </h3>
+            <p>Click the Vote button to choose one.</p>
+        </div>
+    </div>
+    <div class="row OptionController" >
+            <div class="col-md-8"style="margin-top:50px">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Current Count of Votes</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="option in poll._options | orderBy: 'name' track by $index">
+                        <tr>
+                            <td>{{option.name}}</td>
+                            <td>{{option._users.length}}</td>
+                            <!-- <td><a href="#/{{user._id}}/polls/{{poll._id}}/options/{{option._id}}">Vote</a></td> -->
+
+                            <td><button ng-click = "vote(option._id,poll._id)">Vote</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+</fieldset>

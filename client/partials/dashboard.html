@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-md-2 col-md-offset-10">
+        <a href="#/create">Create a New Poll</a> | <a href="#/">Logout</a>
+    </div>
+</div>
+    <fieldset>
+    <legend>Current Polls</legend>
+    <div class="row DashboardController" >
+            <div class="col-md-8"style="margin-top:50px">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Survey Question</th>
+                            <th>Date Posted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="poll in polls | orderBy: 'createdAt' track by $index">
+                        <tr>
+                            <td>{{poll._user.name}}</td>
+                            <td><a href="#/poll/{{poll._id}}">{{poll.question}}</a></td>
+                            <td>{{poll.createdAt | date : format : "mediumDate"}}</td>
+                            <td>
+                                <div ng-if="user._id == poll._user._id">
+                                    <a ng-click="delete(poll._id)">delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+</fieldset>

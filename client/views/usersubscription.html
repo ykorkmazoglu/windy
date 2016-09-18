@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Windy.io</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" type="text/css" />
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="/assets/css/animate.min.css" type="text/css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/creative.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/css/custom.css" type="text/css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top" style="background:#f05f40;">
+
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="index.html">Windy.io</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                 <ul class="nav navbar-nav navbar-right">
+
+                   <li> <a class="" href="/home" th:text="'Welcome ' + ${name}"></a> </li> 
+                    <li> <a class="" href="/home/plan">Subscription</a> </li>
+                    <li> <a class="" href="/home/plans">Plans</a> </li>  
+                    <li> <a class="" href="/home/usage">Usage</a> </li> 
+                    <li class="login-link"> <a class="" href="/logout">Logout</a> </li> 
+                    
+                  <!--   <li class="logged"> <a class="" href="dashboard.html">Dashboard</a> </li> -->
+                     
+                    
+
+                  <!--   <li class="logged"> <a class="" href="managment.html">Managment</a> </li> -->
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <header>
+        <div class="header-content myplan">
+            <div class="header-content-inner">
+                <p>You’re currently subscribed to plan:</p>
+                <div class="subs_wrapper">
+                    
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+            <div id="availablePlans" style="text-align:center;color:white; margin-top:20px;margin-bottom:-30px;"><h2>Available plans:</h2></div>
+                <div class="container" style="margin:0px auto; background:#f05f40;padding:60px;color:white;">
+                    
+                    <div class="plansSelect plans_wrapper">
+                    </div>
+                </div>
+
+        <div class="alert alert-danger quota-alert" role="alert" style="position: fixed;top: 50px;width: 100%; text-align:center;margin: 0px;">
+            <strong>Quota Alert </strong> Please change your selected plan to better fit your usage
+        </div>
+
+    <!-- underscore -->
+    <script src="/assets/js/underscore-min.js"></script>
+
+    <!-- jQuery -->
+    <script src="/assets/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/assets/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="/assets/js/jquery.easing.min.js"></script>
+    <script src="/assets/js/jquery.fittext.js"></script>
+    <script src="/assets/js/wow.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/assets/js/creative.js"></script>
+
+    <script type="text/javascript">
+    //<![CDATA[
+
+
+    var globalData = {
+        subs:{},
+        offerings:{},
+        //offerings1:{},
+        offeringsSegment:{},
+        entitlements:{}
+    }
+
+    var getSubsPlans = function(){
+        var subplans = [];
+       
+        
+        //var allplans = globalData.offerings.plans.data;
+        var allplans=getPlan().plans.data;
+        var allsubs = globalData.subs.data;
+
+        console.log("All subs");
+        console.dir(allsubs);
+       
+        console.log("All plans");
+        console.dir(allplans);
+        
+        for(var i = 0; i<allsubs.length; i++){
+            for(var j = 0; j<allplans.length; j++){
+                if(allplans[j].id === allsubs[i].plan.id){
+                    allplans[j].isSelected = true;
+                    subplans.push(allplans[j]);
+
+                }
+            }
+        }
+        console.log("subplans  broken");
+        console.log(subplans);
+        return subplans;
+    }
+
+
+
+ var getPlan = function (){
+
+
+      for(var i=0; i< globalData.offeringsSegment.plans.data.length; i++)
+                {
+                    if(globalData.subs.data[0].plan.id == globalData.offeringsSegment.plans.data[i].id)
+                    {
+
+                        return globalData.offeringsSegment;
+                    }
+                    
+                }
+                
+
+               for(var i=0; i< globalData.offerings.plans.data.length; i++)
+                {
+                    if(globalData.subs.data[0].plan.id == globalData.offerings.plans.data[i].id)
+                    {
+
+                        return globalData.offerings;
+                    }
+                    
+                }
+
+    }
+
+
+
+    var checkQuota = function(){
+        var rows = globalData.entitlements.data;
+        var overUsed = false;
+        for(var i = 0; i<rows.length; i++){
+            if(rows[i].currentUsedAmount >= rows[i].maxAllowedAmount){
+                overUsed = true;
+            }
+        }
+        if(overUsed){
+            $('body').addClass('over-used');
+        }
+    }
+    var addEntToPlans = function(plan){
+        var planWithEnt = plan;
+        var planFtrs = planWithEnt[0].features.data;
+        for(var i = 0; i<planFtrs.length; i++){
+            planFtrs[i].ent = globalData.entitlements.data[i];
+        }
+        console.log("planwithEnt Data",planWithEnt);
+        return planWithEnt;
+
+    }
+    var drawPage = function(){
+        var data = addEntToPlans(getSubsPlans());
+        console.log("Data",data);
+        var tmpl = _.template($("#template").html());
+        $(".subs_wrapper").html(tmpl(data));
+        var templatePlans = _.template($("#templatePlans").html());
+        $(".plansSelect").append(templatePlans(globalData.offeringsSegment.plans.data));
+        console.log("Global Data",globalData);
+    }
+
+    $(document).ready(function(){
+
+
+        globalData.subs = JSON.parse($('#subs').text());
+        globalData.offerings = JSON.parse($('#offers').text());
+        globalData.offeringsSegment = JSON.parse($('#offersSeg').text());
+        globalData.entitlements= JSON.parse($('#entit').text());
+
+        drawPage();
+        checkQuota();
+        
+
+    });
+
+ //]]> 
+
+    </script>
+
+    <script type="text/template" id="template">
+    <![CDATA[
+        <span></span>
+        <h2><%= obj[0].name %> </h2>
+        <% _.each(obj[0].features.data, function(item) { %>
+
+            <div class="row" style="margin:auto; text-align:left;">
+                  <div class="col-md-9">
+                    <% if(item.name === "recurring"){ %>
+                        <b style="font-size:18px;">
+                            Price
+                        </b>
+                    <% } else{ %>
+                        <%=item.name%>
+                    <% } %>
+                  </div>
+                  <div class="col-md-3">
+                    <% if(item.name === "recurring"){ %>
+                        <b style="background:green; font-size:18px;">
+                            $
+                            <%
+                            print(item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")) %>
+                        </b>
+                    <% } else{ %>
+                        <% if(item.max_unit === 0 ) { %>
+                            <span class="fa-check-circle fa" style="font-size:18px;"></span>
+                        <% }else{ %>
+                            <% if(item.ent.current_used_amount === 0){ %>
+                                 <%=item.max_unit%> 
+                            <% } else{ %>
+                                <b> <%=item.ent.currentUsedAmount%></b> /  <%=item.max_unit%> 
+                            <% } %>
+                        <% } %>
+                    <% } %>
+                  </div>
+            </div>       
+
+        <% }); %>
+
+         
+         <a href="#availablePlans" class="btn btn-primary btn-xl" style="margin-top:25px;">Change plan</a> 
+
+        <!-- ]]> -->
+
+
+
+    </script>
+
+
+    <script type="text/template" id="templatePlans">
+
+<![CDATA[
+            <span></span>
+
+
+    <%for(var planObj in obj) { %>
+        <% if(obj[planObj].isSelected) { %>
+            <div class="plan-wrapper selected" >
+        <% } else{ %>
+            <div class="plan-wrapper">
+        <% } %>  
+
+                
+
+                <h3><%= obj[planObj].name %> </h3>
+                    <% if(obj[planObj].discounts.count != 0) { %>
+                    <div class="ribbon-wrapper-green"><div class="ribbon-green">
+                        <%=obj[planObj].discounts.data[0].days_to_apply%> days Free
+                        </div>
+                    </div>
+                    <% } %>
+
+
+
+            <% if(obj[planObj].isSelected) { %>
+            <div class="select-btn-wrapper selected">
+
+        <% } else{ %>
+            <div class="select-btn-wrapper">
+        <% } %> 
+
+                <% _.each(obj[planObj].features.data, function(item) { %>
+                        <% if(item.name === "recurring"){ %>
+                                <div class="row price" style="margin:auto; text-align:left;">
+                                  <div class="col-md-4">
+                                        <b style="font-size:18px;">
+                                            Price
+                                        </b>
+                                  </div>
+                                  <div class="col-md-8">
+                                        <b style="background:green; font-size:18px;">
+                                            $
+                                            <%
+                            print(item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")) %>
+                                        </b>
+                                  </div>
+                            </div>       
+                            <% } %>
+                <% }); %>
+
+                    <form action="/home/plan/change/confirm" method="post">
+                        <input type="hidden" class="form-control" value="<%=obj[planObj].id %>" name="plan_id">
+                        <input class="btn btn-default btn-xl" value="Select" type="submit"/>
+                    </form>
+
+                </div>
+
+                
+
+                <% _.each(obj[planObj].features.data, function(item) { %>
+                            <% if(item.name != "recurring"){ %>
+                                 <div class="row" style="margin:auto; text-align:left;">
+                                      <div class="col-md-9">
+                                            <%=item.name%>
+                                      </div>
+                                      <div class="col-md-3">
+                                            <% if(item.max_unit === 0 ) { %>
+                                            <span class="fa-check-circle fa" style="font-size:18px;"></span>
+                                            <% }else{ %>
+                                                <%=item.max_unit%>
+                                          <% } %>
+                                      </div>
+                                </div>  
+                            <% } %>
+                <% }); %>
+            </div>
+        <% }; %>
+
+<!-- ]]> -->
+
+    </script>
+
+    
+    <style>
+
+.plan-wrapper.selected  {
+    background-color: green;
+}
+
+.select-btn-wrapper.selected {
+
+   background-color: green;
+
+}
+
+
+    .plan-wrapper:hover {
+    background-color: #4DA64D;
+}
+  .plan-wrapper:hover .select-btn-wrapper {
+    background-color: #4DA64D;
+}
+  </style>
+
+
+
+    <span id="subs" th:text="${subscription}" style="display:none"></span>
+     <span id="offers" th:text="${offerings}" style="display:none"></span> 
+    <!--<span id="offers1" th:text="${offerings1}" style="display:none"></span> -->
+    <span id="offersSeg" th:text="${offeringsSegment}" style="display:none"></span>
+    <span id="entit" th:text="${entitlements}" style="display:none"></span>
+   
+
+<script type="text/javascript" src="/assets/js/login.js"></script>
+</body>
+
+</html>
