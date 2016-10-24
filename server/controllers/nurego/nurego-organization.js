@@ -4,7 +4,10 @@ var request = require('request'),
 module.exports = (function() {
 	return {
         //Update an Organization
-        updateOrganization: function(orgId, params, callback){
+        updateOrganization: function(orgId, params){
+
+          return new Promise(function(resolve,reject){
+
             var options = {
                 url: config.nurego.base_url+'/v1/organizations/'+orgId,
                 headers: {
@@ -14,21 +17,24 @@ module.exports = (function() {
                 method: 'POST',
                 form: params
             };
-            function callback1(error, response, body) {
+            function callback(error, response, body) {
                 if(error){
-                    callback({success: false, description: "Failed to Call Update an Organization", error: error});
+                    reject({success: false, description: "Failed to Call Update an Organization", error: error});
                 }else if (response.statusCode !== 200) {
-                    callback({success: false, code: response.statusCode, response: JSON.parse(response.body) });
+                    reject({success: false, code: response.statusCode, response: JSON.parse(response.body) });
                 }else{
-                    callback({success: true, code: response.statusCode, response: JSON.parse(response.body) });
+                    resolve({success: true, code: response.statusCode, response: JSON.parse(response.body) });
                 }
                 console.log("Printing: response.statusCode,body for updateOrganization \n   ",response.statusCode,body);
             }
-            request(options, callback1)
-		},
+            request(options, callback)
+          })
+        },
 
         // Retrieve an Organization
-        retrieveOrganization: function(orgId, callback){
+        retrieveOrganization: function(orgId){
+
+          return new Promise(function(resolve,reject){
             var options = {
                 url: config.nurego.base_url+'/v1/organizations/'+orgId,
                 headers: {
@@ -37,17 +43,19 @@ module.exports = (function() {
                 },
                 method: 'GET'
             };
-            function callback1(error, response, body) {
+            function callback(error, response, body) {
                 if(error){
-                    callback({success: false, description: "Failed to Call Update an Organization", error: error});
+                    reject({success: false, description: "Failed to Call Update an Organization", error: error});
                 }else if (response.statusCode !== 200) {
-                    callback({success: false, code: response.statusCode, response: JSON.parse(response.body) });
+                    reject({success: false, code: response.statusCode, response: JSON.parse(response.body) });
                 }else{
-                    callback({success: true, code: response.statusCode, response: JSON.parse(response.body) });
+                    resolve({success: true, code: response.statusCode, response: JSON.parse(response.body) });
                 }
                 console.log("Printing: response.statusCode,body for retrieveOrganization \n   ",response.statusCode,body);
             }
-            request(options, callback1)
+            request(options, callback)
+          })
+
 		}
 
 

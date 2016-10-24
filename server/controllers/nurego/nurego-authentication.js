@@ -4,8 +4,11 @@ var request = require('request');
 module.exports = (function() {
 	return {
 
-        //Get token by grant_type=password
-        getToken: function(req, res,callback){
+    //Get token by grant_type=password
+    getToken: function(req, res){
+
+        return new Promise(function(resolve,reject){
+
             var basicAuth= new Buffer(config.uaa.client_id+':'+config.uaa.client_secret).toString('base64');
             req.body.grant_type = "password";
             var options = {
@@ -17,24 +20,18 @@ module.exports = (function() {
                 method: 'POST',
                 form: req.body
             };
-            function callback1(error, response, body) {
+            function callback(error, response, body) {
                 if(error){
-                    callback({loggedIn: false, description: "Failed to Call UAA", Error: error});
+                    reject({loggedIn: false, description: "Failed to Call UAA", Error: error});
                 }else if (response.statusCode !== 200) {
-                    callback({loggedIn: false, code: response.statusCode, body: JSON.parse(response.body) });
+                    reject({loggedIn: false, code: response.statusCode, body: JSON.parse(response.body) });
                 }else{
-                    callback({loggedIn: true, code: response.statusCode, token: JSON.parse(response.body) });
+                    resolve({loggedIn: true, code: response.statusCode, token: JSON.parse(response.body) });
                 }
 
             }
-            request(options, callback1)
-		},
-        validateToken: function(req, res,callback1){
-
-        },
-        refreshToken: function(req, res,callback1){
-
-        }
-
-    }
+            request(options, callback)
+        })
+		}
+  }
 })();

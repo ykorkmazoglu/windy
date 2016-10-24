@@ -4,12 +4,8 @@
 <head>
 
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
 
-    <title>Windy.io</title>
+    <title>Windy.io - Offerings</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/statics/css/bootstrap.min.css" type="text/css" />
@@ -26,57 +22,47 @@
     <link rel="stylesheet" href="/statics/css/creative.css" type="text/css" />
     <link rel="stylesheet" href="/statics/css/custom.css" type="text/css" />
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <style>
 
-    button.button.btn.btn-primary.activate {
+    <!-- Nurego JS -->
+    <nurego-api-baseurl url="http://localhost:8000/nurego-api"></nurego-api-baseurl>
+
+    <style>
+        button.button.btn.btn-primary.activate {
         margin-top: 16px;
         float:left;
-        border-radius: 4px;
-
-    }
-    input.btn.btn-primary.btn-xl.page-scroll{
+        border-radius: 4px;}
+        input.btn.btn-primary.btn-xl.page-scroll{
         border-radius: 12px;
         float:left;
     }
-
-    header .header-content .header-content-inner p {
+        header .header-content .header-content-inner p {
         font-size: 24px !important;
         max-width: 100%;
     }
     </style>
 </head>
 
-<body id="page-top">
+<body id="page-top pricing">
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <!-- <div class="navbar-header"> -->
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand page-scroll" href="/">Windy.io</a>
-        </div>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="/">Windy.io</a>
+            </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right">
 
-                     <li> <a class="" href="/">Home</a> </li>
+                    <li> <a class="" href="/">Home</a> </li>
                     <li> <a class="" href="/pricing">Pricing</a> </li>
                     <li class="login-link"> <a class="" href="/login">Login</a> </li>
-
-                  <!--   <li class="logged"> <a class="" href="dashboard.html">Dashboard</a> </li> -->
-
-                  <!--   <li class="logged"> <a class="" href="managment.html">Managment</a> </li> -->
 
                 </ul>
             </div>
@@ -87,28 +73,58 @@
 
     <header>
         <div class="header-content">
-            <div class="header-content-inner">
+            <% if(!success) { %>
+                <section class="success">
+                    <ul>
 
-                <nurego-widget name="login"></nurego-widget>
+                            <li>
+                                <%= JSON.stringify(errors) %>
+                            </li>
+
+                    </ul>
+                </section>
+            <% } %>
+            <div class="header-content-inner">
+                <div class="login_wrapper" style="height:325px">
+                    <p>Login to Windy.io</p>
+                     <form method="post" action="/login">
+                        <div>
+                            <small><b>Powered by GE PW</b></small>
+                        </div>
+
+                        <div class="input-group input-group-lg">
+                          <input name="username" type="email" id="user" class="form-control" placeholder="email" required/>
+                        </div>
+
+                        <div class="input-group input-group-lg">
+                          <input name="password" type="password" class="form-control" placeholder="password" required/>
+                        </div>
+                        <input class="btn btn-primary btn-xl page-scroll" value="Login" type="submit"/>
+                    </form>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- jQuery -->
-    <script src="/statics/js/jquery.js"></script>
+    <section>
+        <!-- jQuery -->
+        <script src="/statics/js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/statics/js/bootstrap.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="/statics/js/bootstrap.min.js"></script>
 
-    <!-- Plugin JavaScript -->
-    <script src="/statics/js/jquery.easing.min.js"></script>
-    <script src="/statics/js/jquery.fittext.js"></script>
-    <script src="/statics/js/wow.min.js"></script>
+        <!-- Plugin JavaScript -->
+        <script src="/statics/js/jquery.easing.min.js"></script>
+        <script src="/statics/js/jquery.fittext.js"></script>
+        <script src="/statics/js/wow.min.js"></script>
 
-    <!-- Custom Theme JavaScript -->
-    <script src="/statics/js/creative.js"></script>
+        <!-- Custom Theme JavaScript -->
+        <script src="/statics/js/creative.js"></script>
 
-    <script src="//rawgit.com/Nurego/nurego-js/staging/app/dist/bin.js" type="text/javascript" rel="nurego"> </script>
+        <!-- Nurego JS -->
+        <script src="//rawgit.com/Nurego/nurego-js/staging/app/dist/bin.js" type="text/javascript" rel="nurego"> </script>
+    </section>
+
 </body>
 
 </html>

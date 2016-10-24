@@ -94,6 +94,17 @@
 
     <header>
         <div class="header-content">
+          <% if(!errors) { %>
+              <section class="success">
+                  <ul>
+
+                          <li>
+                              <%= JSON.stringify(errors) %>
+                          </li>
+
+                  </ul>
+              </section>
+          <% } %>
             <div class="header-content-inner">
                 <div class="login_wrapper">
                 <p id="compReg">Complete Registration</p>

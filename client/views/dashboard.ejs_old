@@ -14,9 +14,10 @@
     <style>
     section {
         padding: 65px 0px !important;
-        margin:0px;
+        margin:0px;}
+    .small_graphs .row .col-md-4{
+        margin-bottom:18px;
     }
-
     body {
 
 
@@ -76,7 +77,6 @@
 </head>
 
 <body id="page-top">
-
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix-top" style="">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -87,15 +87,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="/dashboard" style="color:#eb3812;">Windy.io</a>
+                <a class="navbar-brand page-scroll" href="index.html" style="color:#eb3812;">Windy.io</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
 
-                    <li> <a class="" href="#" th:text="'Welcome ' + ${name}"></a> </li>
-                    <li> <a class="" href="/home/dashboard">Subscription</a> </li>
+                    <li> <a class="" href="/home" th:text="'Welcome ' + ${name}"></a> </li>
+                    <li> <a class="" href="/home/plan">Subscription</a> </li>
                     <li> <a class="" href="/home/plans">Plans</a> </li>
                     <li> <a class="" href="/home/usage">Usage</a> </li>
                     <li class="login-link"> <a class="" href="/logout">Logout</a> </li>
@@ -108,18 +108,18 @@
         <!-- /.container-fluid -->
     </nav>
     <header>
-    <section id="first_section" class="graph_wrapper">
-            <div class="row container" style="margin:auto;">
-              <div class="col-md-12">
-                  <div id="big_graph" class="" style="mix-width: 310px; height: 450px; margin: 0 auto;"> </div>
-              </div>
-               </div>
-    </section>
+        <section id="first_section" class="graph_wrapper">
+                <div class="row container" style="margin:auto;">
+                  <div class="col-md-12">
+                      <div id="big_graph" class="" style="mix-width: 310px; height: 450px; margin: 0 auto;"> </div>
+                  </div>
+                   </div>
+        </section>
     </header>
 
     <section id="graphAnalytics_1" class="graph_wrapper small_graphs" style="background:#f05f40;">
         <center><h2 style="color:white; margin-top:-20px; margin-bottom:40px">Power Analytics per Turbine </h2>
-  </center>
+        </center>
         <div class="" style="">
 
             <div class="row container" style="margin:auto;">
@@ -130,7 +130,7 @@
     </section>
      <section id="graphAnalytics_2" class="graph_wrapper small_graphs" style="background:white;">
         <center><h2 style="color:#f05f40; margin-top:-20px; margin-bottom:40px">Wind Analytics per Turbine </h2>
-  </center>
+        </center>
         <div class="" style="">
 
             <div class="row container" style="margin:auto;">
@@ -138,7 +138,7 @@
             </div>
 
         </div>
-    </section>
+     </section>
 
     <section id="contact" style="background:#fff;">
         <div class="container">
@@ -180,7 +180,7 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
-    <script type="text/javascript">//<![CDATA[
+    <script type="text/javascript">
 
     var globalData = {
 
@@ -191,12 +191,12 @@
         $(function () {
             $(document).ready(function () {
 
-        globalData.entitlements= JSON.parse($('#entit').text());
+        globalData.entitlements= JSON.parse(<%= JSON.stringify(response) %>);
+
 
 
         var dataLength=parseInt(globalData.entitlements.data.length);
 
-        console.log("printing the lenght", dataLength);
         var graphAnalytics = $('.graph_wrapper .small_graphs');
 
             $("#graphAnalytics_1").hide();
@@ -204,7 +204,7 @@
 
             for(var k=0; k<dataLength; k++)
             {
-                if(globalData.entitlements.data[k].featureId == "analytics")
+                if(globalData.entitlements.data[k].featureId == "powerAnalytics")
                 {
                     $("#graphAnalytics_1").show();
                 }
@@ -335,18 +335,12 @@
 
             });
         });
-        //]]>
+
     </script>
-<style>
-    .small_graphs .row .col-md-4{
-        margin-bottom:18px;
-    }
-</style>
+
 <script type="text/javascript" src="/statics/js/login.js"></script>
 
-<span id="entit" style="display:none">
-<%= JSON.stringify(response) %>
-</span>
+<!-- <span id="entit" th:text= <%= JSON.stringify(response) %> style="display:none"></span> -->
 
 </body>
 

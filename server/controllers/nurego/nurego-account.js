@@ -4,7 +4,9 @@ var request = require('request'),
 module.exports = (function() {
 	return {
         //Update an Account
-        updateAccount: function(acctId, params, callback){
+        updateAccount: function(acctId, params){
+
+          return new Promise(function(resolve,reject){
             var options = {
                 url: config.nurego.base_url+'/v1/accounts/'+acctId,
                 headers: {
@@ -14,17 +16,19 @@ module.exports = (function() {
                 method: 'PUT',
                 form: params
             };
-            function callback1(error, response, body) {
+            function callback(error, response, body) {
                 if(error){
-                    callback({success: false, description: "Failed to Call Update an Organization", error: error});
+                    reject({success: false, description: "Failed to Call Update an Organization", error: error});
                 }else if (response.statusCode !== 200) {
-                    callback({success: false, code: response.statusCode, response: JSON.parse(response.body) });
+                    reject({success: false, code: response.statusCode, response: JSON.parse(response.body) });
                 }else{
-                    callback({success: true, code: response.statusCode, response: JSON.parse(response.body) });
+                    resolve({success: true, code: response.statusCode, response: JSON.parse(response.body) });
                 }
                 console.log("Printing: response.statusCode,body for updateAccount \n   ",response.statusCode,body);
             }
-            request(options, callback1)
+            request(options, callback)
+          })
+
 		}
     }
 })();
