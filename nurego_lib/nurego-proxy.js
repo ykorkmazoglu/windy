@@ -1,6 +1,6 @@
 var proxy    = require('express-http-proxy'),
     cors     = require('cors'),
-    config   = require('../../config/configuration.js');
+    config   = require('../config/configuration.js');
 
 module.exports = function(app){
     app.use('/nurego-api',cors(),proxy(config.nurego.base_url, {

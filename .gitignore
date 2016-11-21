@@ -2,3 +2,4 @@ ignore/
 node_modules/
 server/config/configuration.js
 log/
+oldCode

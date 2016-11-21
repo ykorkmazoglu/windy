@@ -1,0 +1,64 @@
+<div class="plans_wrapper">
+
+    {{for(var planObj in plans) { }}
+
+    <div class="plan-wrapper">
+        <h3>{{= plans[planObj].name }} </h3>
+
+        {{ if(plans[planObj].discounts.count != 0) { }}
+        <div class="ribbon-wrapper-green">
+            <div class="ribbon-green">
+                {{=plans[planObj].discounts.data[0].days_to_apply}} days Free
+            </div>
+        </div>
+        {{  } }}
+
+
+        <div class="select-btn-wrapper">
+            {{ _.each(plans[planObj].features.data, function(item) { }}
+                {{ if(item.name === "recurring"){ }}
+                <div class="row price" style="margin:auto; text-align:left;">
+                    <div class="col-md-4 col-sm-4">
+                        <b style="font-size:18px;">Price</b>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <b style="background:green; font-size:18px;">$ {{print(item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")) }}</b>
+                    </div>
+                </div>
+                {{ } }}
+            {{ }) }}
+            <span class="plan-select btn btn-default btn-xl page-scroll" data-id="{{=plans[planObj].id }}">Select</span>
+        </div>
+
+        {{ _.each(plans[planObj].features.data, function(item) { }}
+            {{ if(item.name != "recurring") { }}
+                <div class="row" style="margin:auto; text-align:left;">
+                    <div class="col-md-9 col-sm-9">
+                        {{=item.name}}
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+
+                    {{ if(item.max_unit === 0 ) { }}
+                        <span class="fa-check-circle fa" style="font-size:18px;"></span>
+                    {{ }else{ }}
+                            {{=item.max_unit}}
+                        {{ } }}
+                    </div>
+                </div>
+            {{ } }}
+        {{ }); }}
+    </div>
+        {{ }; }}
+</div>
+
+
+    <div class="emailWrapper">
+		<h4 class="">Please enter your Email:</h4>
+		<input class="form-control email" type="text" placeholder="example@email.com"/>
+		<div class="btn btn-primary postNoSSo">Subscribe</div>
+	</div>
+
+	<div class="thankYou">
+		<div class="p1">Your registration invite has been sent.</div>
+		<div class="p2">Please check your inbox and use the link inside to sign up</div>
+	</div>
