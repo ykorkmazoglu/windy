@@ -2,7 +2,7 @@ var config = require('../config/configuration.js'),
 express = require('express'),
 Auth = require('../nurego_lib/nurego-authentication.js');
 
-
+//before rebase
 module.exports = function(app){
   var router = express.Router({mergeParams: true});
 
