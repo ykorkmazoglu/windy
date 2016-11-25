@@ -26,7 +26,6 @@ module.exports = function(app){
       req.session.auth=data.auth;
       var toUrl = req.session.originalUrl;
       delete req.session.originalUrl;
-      console.log("Auth in auth.js",req.session.auth);
       res.redirect(toUrl || '/home' );
     }).catch((data) => {
       req.session.auth=data.auth;

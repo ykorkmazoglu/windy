@@ -28,8 +28,8 @@ module.exports = (function() {
                     resolve({success: true, code: response.statusCode, response: JSON.parse(response.body) });
                 }
             }
-            request(options, callback)
-          })
+            request(options, callback);
+          });
 		}
-    }
+  };
 })();
