@@ -1,6 +1,6 @@
 var config = require('../config/configuration.js'),
-express = require('express'),
-Auth = require('../nurego_lib/nurego-authentication.js');
+    express = require('express'),
+    Auth = require('../nurego_lib/nurego-authentication.js');
 
 
 module.exports = function(app){
@@ -21,7 +21,8 @@ module.exports = function(app){
 
   router.post('/login', function(req,res){
     var params = req.body;
-    Auth.authorize(params,req.session)
+    _this=this;
+    _this.authorize(params,req.session)
     .then((data) => {
       var toUrl = req.session.originalUrl;
       delete req.session.originalUrl;
