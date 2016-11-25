@@ -18,14 +18,14 @@ module.exports = (function() {
                 form: params
             };
             function callback(error, response, body) {
-                if(error){
-                    reject({success: false, description: "Failed to Call Update an Organization", error: error});
-                }else if (response.statusCode !== 200) {
-                    reject({success: false, code: response.statusCode, response: JSON.parse(response.body) });
-                }else{
-                    resolve({success: true, code: response.statusCode, response: JSON.parse(response.body) });
-                }
-                console.log("Printing: response.statusCode,body for updateOrganization \n   ",response.statusCode,body);
+              body = typeof body == 'string' ? JSON.parse(body) : body;
+              if(error){
+                reject({ error: error});
+              }else if(response.statusCode != 200 ){
+                reject({statusCode: response.statusCode, error: body });
+              }else{
+                resolve({statusCode: response.statusCode, body: body });
+              }
             }
             request(options, callback)
           })
@@ -44,20 +44,17 @@ module.exports = (function() {
                 method: 'GET'
             };
             function callback(error, response, body) {
-                if(error){
-                    reject({success: false, description: "Failed to Call Update an Organization", error: error});
-                }else if (response.statusCode !== 200) {
-                    reject({success: false, code: response.statusCode, response: JSON.parse(response.body) });
-                }else{
-                    resolve({success: true, code: response.statusCode, response: JSON.parse(response.body) });
-                }
-                console.log("Printing: response.statusCode,body for retrieveOrganization \n   ",response.statusCode,body);
+              body = typeof body == 'string' ? JSON.parse(body) : body;
+              if(error){
+                reject({ error: error});
+              }else if(response.statusCode != 200 ){
+                reject({statusCode: response.statusCode, error: body });
+              }else{
+                resolve({statusCode: response.statusCode, body: body  });
+              }
             }
             request(options, callback)
           })
-
 		}
-
-
     }
 })();

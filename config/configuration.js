@@ -5,7 +5,7 @@ module.exports = {
   uaa: {
     url: 'https://uaa-staging.nurego.com',
     client_id: 'account_manager',
-    cclient_secret: 'somesecret'
+    client_secret: 'somesecret'
   },
   nurego: {
     service_id: 'windfarm_management',

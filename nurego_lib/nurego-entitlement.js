@@ -27,7 +27,6 @@ module.exports = (function() {
                 }else{
                     resolve({success: true, code: response.statusCode, response: JSON.parse(response.body) });
                 }
-                console.log("Printing: response.statusCode,body for retrieveEntit \n   ",response.statusCode,body);
             }
             request(options, callback)
           })

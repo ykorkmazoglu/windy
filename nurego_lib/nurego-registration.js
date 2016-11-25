@@ -6,7 +6,6 @@ module.exports = (function() {
 
         //Complete Registration
         completeRegistration: function(regId, params){
-
           return new Promise(function(resolve,reject){
             var options = {
                 url: config.nurego.base_url+'/v1/registrations/'+regId+'/complete',
@@ -18,18 +17,17 @@ module.exports = (function() {
                 form: params
             };
             function callback(error, response, body) {
-                if(error){
-                    reject({success: false, description: "Failed to Call Registration Complete", error: error});
-                }else if (response.statusCode !== 201) {
-                    reject({success: false, code: response.statusCode, response: JSON.parse(response.body) });
-                }else{
-                    resolve({success: true, code: response.statusCode, response: JSON.parse(response.body) });
-                }
+              body = typeof body == 'string' ? JSON.parse(body) : body;
+              if(error){
+                reject({ error: error});
+              }else if(response.statusCode != 201 ){
+                reject({statusCode: response.statusCode, error: body });
+              }else{
+                resolve({statusCode: response.statusCode, body: body });
+              }
             }
             request(options, callback);
           })
-
-
 		}
     }
 })();
