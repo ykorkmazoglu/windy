@@ -6,7 +6,7 @@ module.exports = (function() {
     //Get token by grant_type=password
     getToken: function(params){
       return new Promise(function(resolve,reject){
-
+        var auth={};
         var basicAuth= new Buffer(config.uaa.client_id+':'+config.uaa.client_secret).toString('base64');
         params.grant_type = "password";
         var options = {
@@ -23,37 +23,23 @@ module.exports = (function() {
           if(error){
             reject({ error: error});
           }else if(response.statusCode != 200 ){
-            reject({statusCode: response.statusCode, error: body });
+            auth = {
+              isLoggedIn: false,
+              token: null,
+              errors: body
+            };
+            reject({statusCode: response.statusCode, auth: auth });
           }else{
-            resolve({statusCode: response.statusCode, token: body });
+            auth = {
+              isLoggedIn: true,
+              token: body,
+              errors: null
+            };
+            resolve({statusCode: response.statusCode, auth: auth });
           }
         }
         request(options, callback);
       });
-    },
-    authorize: function(params, session){
-      var _this=this;
-      return new Promise(function(resolve,reject){
-        //Authorize the cutomer automatically
-        _this.getToken(params)
-        .then((data) => {
-          session.auth = {
-            isLoggedIn: true,
-            token: data.token,
-            errors: null
-          };
-          resolve();
-        })
-        .catch((data) => {
-          session.auth = {
-            isLoggedIn: false,
-            token: null,
-            errors: data.error
-          };
-          reject();
-        });
-      });
     }
   }; //return
-})
-();
+})();

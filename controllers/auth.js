@@ -21,12 +21,14 @@ module.exports = function(app){
 
   router.post('/login', function(req,res){
     var params = req.body;
-    Auth.authorize(params,req.session)
+    Auth.getToken(params)
     .then((data) => {
+      req.session.auth=data.auth;
       var toUrl = req.session.originalUrl;
       delete req.session.originalUrl;
       res.redirect(toUrl || '/home' );
     }).catch((data) => {
+      req.session.auth=data.auth;
       res.redirect('/login');
     });
   });
