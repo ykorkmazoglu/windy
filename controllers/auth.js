@@ -21,7 +21,7 @@ module.exports = function(app){
 
   router.post('/login', function(req,res){
     var params = req.body;
-    Auth.authorize(params)
+    Auth.getToken(params)
     .then((data) => {
       req.session.auth=data.auth;
       var toUrl = req.session.originalUrl;
