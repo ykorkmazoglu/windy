@@ -1,6 +1,6 @@
 var config = require('../config/configuration.js'),
-    express = require('express'),
-    Auth = require('../nurego_lib/nurego-authentication.js');
+express = require('express'),
+Auth = require('../nurego_lib/nurego-authentication.js');
 
 
 module.exports = function(app){
@@ -21,13 +21,15 @@ module.exports = function(app){
 
   router.post('/login', function(req,res){
     var params = req.body;
-    _this=this;
-    _this.authorize(params,req.session)
+    Auth.authorize(params)
     .then((data) => {
+      req.session.auth=data.auth;
       var toUrl = req.session.originalUrl;
       delete req.session.originalUrl;
+      console.log("Auth in auth.js",req.session.auth);
       res.redirect(toUrl || '/home' );
     }).catch((data) => {
+      req.session.auth=data.auth;
       res.redirect('/login');
     });
   });

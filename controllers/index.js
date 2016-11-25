@@ -37,24 +37,35 @@ module.exports = function(app){
       return Org.updateOrganization(req.session.customer.organization_id, params);
     })
     .then((data) => {
+      console.log("typeof data 1\n",typeof data);
       return Org.retrieveOrganization(req.session.customer.organization_id);
     })
     .then((data) => {
+      console.log("typeof data 1\n",typeof data);
       req.session.org = data.body;
-      console.log("req.session.org\n",req.session.org);
+      console.log("req.session.org.account_no\n",req.session.org.account_no);
       var params = {name: req.body.acctName};
+      console.log("params in account\n",params);
       return Acct.updateAccount(req.session.org.account_no, params);
     })
     .then((data) => {
-      req.session.acct = data.body;
-      console.log("req.session.acct\n",req.session.acct);
-      return Auth.authorize({email: req.session.reg.email,password:req.session.reg.pwd},req.session);
+      console.log("typeof data 1\n",typeof data);
+      req.session.account = data.body;
+      console.log("email: req.session.reg.email\n",req.session.reg.email);
+      console.log("email: req.session.reg.pwed\n",req.session.reg.pwd);
+      var params = {email: req.session.reg.email,password:req.session.reg.pwd};
+      console.log("req.session.acct\n",JSON.stringify(req.session.account));
+      return Auth.authorize(params);
     })
     .then((data) => {
+      console.log("typeof data 1\n",typeof data);
+      console.log("i am here 1");
+      req.session.auth=data.auth;
       console.log("req.session.auth\n",req.session.auth);
       res.redirect('/home');
     })
     .catch((error) => {
+        console.log("i am here 2");
       res.redirect('/logout');
     });
 
