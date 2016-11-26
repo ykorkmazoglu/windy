@@ -6,7 +6,6 @@ Auth = require('../nurego_lib/nurego-authentication.js');
 module.exports = function(app){
   var router = express.Router({mergeParams: true});
 
-
   //Login Routes
   router.get('/login', function(req,res){
     if(!req.session.auth){
@@ -26,7 +25,7 @@ module.exports = function(app){
       req.session.auth=data.auth;
       var toUrl = req.session.originalUrl;
       delete req.session.originalUrl;
-      res.redirect(toUrl || '/home' );
+      res.redirect(toUrl || '/user/dashboard' );
     }).catch((data) => {
       req.session.auth=data.auth;
       res.redirect('/login');

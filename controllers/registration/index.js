@@ -42,7 +42,7 @@ module.exports = function(app){
     })
     .then((data) => {
       req.session.auth=data.auth;
-      res.redirect('/home' );
+      res.redirect('/user/dashboard' );
     })
     .catch((error) => {
       res.redirect('/logout');
