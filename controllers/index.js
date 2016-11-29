@@ -1,11 +1,18 @@
-var express = require('express');
+var express = require('express'),
+jwt = require('jwt-simple'),
+config = require('../config/configuration.js');
 
 module.exports = function(app){
   var router = express.Router({mergeParams: true});
 
   var auth = function(req, res, next) {
     if (req.session.auth && req.session.auth.isLoggedIn) {
-      next();
+      var expires_at = jwt.decode(req.session.auth.token.access_token, config.uaa.client_secret,'RS256').exp;
+      var now = Date.now() / 1000 | 0;
+
+      if (now < expires_at ){
+        next();
+      }
     } else {
       req.session.originalUrl = req.originalUrl;
       res.redirect('/login');
@@ -22,9 +29,8 @@ module.exports = function(app){
 
   app.use('/', router);
   app.use('/registration',require('./registration')(app));
-  app.use('/user', auth, require('./user')(app));
   app.use('/', require('./auth.js')(app));
-  // app.use('/home', auth, require('./users')(app, {}));
+  app.use('/user', auth, require('./user')(app));
 
   return router;
 };

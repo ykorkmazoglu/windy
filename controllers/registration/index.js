@@ -49,9 +49,7 @@ module.exports = function(app){
     });
 
   });   //end of registration complete
-
   app.use('/', router);
-  // app.use('/home', auth, require('./users')(app, {}));
 
   return router;
 };
